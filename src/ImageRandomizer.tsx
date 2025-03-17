@@ -37,7 +37,7 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
   const [completedCount, setCompletedCount] = useState(0);
   const [stopLimit, setStopLimit] = useState(false);
   const [isPaused, setIsPaused] = useState(true);
-  const timerRef = useRef<NodeJS.Timeout | null>(null);
+  const timerRef = useRef<number | null>(null);
   const [remainingTime, setRemainingTime] = useState(timerInSeconds * 1000);
   const lastTickRef = useRef<number | null>(null);
 
