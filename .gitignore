@@ -22,3 +22,8 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+src/img/*
+public/img/*
+src/image-list.json
+

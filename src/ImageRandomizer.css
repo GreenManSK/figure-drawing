@@ -1,0 +1,25 @@
+.image-randomizer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  width: 100%;
+  background: black;
+  box-sizing: border-box;
+  padding: 0 1rem;
+
+  img {
+    height: calc(100vh - 3rem);
+  }
+
+  .counter {
+    font-size: 1.5rem;
+    color: white;
+  }
+
+  button {
+    font-size: 1.2rem;
+    height: 3rem;
+  }
+}
