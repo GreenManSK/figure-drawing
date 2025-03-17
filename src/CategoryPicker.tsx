@@ -69,6 +69,9 @@ export const CategoryPicker: React.FC<ICategoryPickerProps> = ({
 
   return (
     <div className="category-picker p-4 bg-gray-100 rounded shadow-md">
+      <header className="text-2xl font-bold mb-4 text-gray-700">
+        Figure Drawing
+      </header>
       <form className="space-y-4">
         {Object.entries(groupedCategories).map(([group, groupCategories]) => (
           <div key={group} className="mb-4">
@@ -114,7 +117,7 @@ export const CategoryPicker: React.FC<ICategoryPickerProps> = ({
       </form>
       <button
         onClick={handleShowImages}
-        className="mt-4 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+        className="mt-4 px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600"
       >
         Show
       </button>

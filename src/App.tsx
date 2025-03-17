@@ -28,23 +28,27 @@ function App() {
     localStorage.setItem("timerInSeconds", timerInSeconds.toString());
   }, [timerInSeconds]);
 
-  return showImages ? (
-    <ImageRandomizer
-      imageCategories={filteredImages}
-      setShowImages={setShowImages}
-      limit={limit}
-      timerInSeconds={timerInSeconds}
-    />
-  ) : (
-    <CategoryPicker
-      imageDatabase={imageDatabase}
-      setFilteredImages={setFilteredImages}
-      setShowImages={setShowImages}
-      setLimit={setLimit}
-      limit={limit}
-      timerInSeconds={timerInSeconds}
-      setTimerInSeconds={setTimerInSeconds}
-    />
+  return (
+    <div className="flex justify-center items-center bg-gray-900 text-white min-h-screen">
+      {showImages ? (
+        <ImageRandomizer
+          imageCategories={filteredImages}
+          setShowImages={setShowImages}
+          limit={limit}
+          timerInSeconds={timerInSeconds}
+        />
+      ) : (
+        <CategoryPicker
+          imageDatabase={imageDatabase}
+          setFilteredImages={setFilteredImages}
+          setShowImages={setShowImages}
+          setLimit={setLimit}
+          limit={limit}
+          timerInSeconds={timerInSeconds}
+          setTimerInSeconds={setTimerInSeconds}
+        />
+      )}
+    </div>
   );
 }
 

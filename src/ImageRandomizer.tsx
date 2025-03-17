@@ -141,22 +141,48 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
   };
 
   return (
-    <div className="image-randomizer">
-      <ImageDisplay image={randomImage} />
-      <div>
-        <button onClick={goToPreviousImage} disabled={history.length <= 1}>
+    <div className="image-randomizer flex flex-col h-screen text-white w-full">
+      <div className="flex-grow flex items-center justify-center max-h-[calc(100vh-3.5rem)] max-w-full bg-gray-950 w-full">
+        <ImageDisplay image={randomImage} />
+      </div>
+      {remainingTime ? (
+        <div className="absolute top-4 right-4 bg-black/60 text-white text-4xl font-bold px-4 py-2 rounded-lg shadow-lg">
+          {Math.ceil(remainingTime / 1000)}s
+        </div>
+      ) : null}
+      <div id="controls" className="flex justify-center items-center gap-4 p-2">
+        <button
+          onClick={goToPreviousImage}
+          disabled={history.length <= 1}
+          className={btn}
+        >
           Prev
         </button>
-        <button onClick={() => setShowImages(false)}>Change</button>
+        <button onClick={() => setShowImages(false)} className={btn}>
+          Close
+        </button>
         {timerInSeconds ? (
-          <button onClick={togglePause}>{isPaused ? "Resume" : "Pause"}</button>
+          <button onClick={togglePause} className={btn}>
+            {isPaused ? "Resume" : "Pause"}
+          </button>
         ) : null}
-        <span className="counter">
+        <span className="counter text-lg font-semibold">
           {limit ? `${completedCount} / ${limit}` : completedCount}
         </span>
-        <button onClick={() => chooseRandomImage(true)}>Next</button>
-        <button onClick={() => chooseRandomImage(false)}>Skip</button>
+        <button onClick={() => chooseRandomImage(false)} className={btnSkip}>
+          Skip
+        </button>
+        <button onClick={() => chooseRandomImage(true)} className={btn}>
+          Next
+        </button>
       </div>
     </div>
   );
 };
+
+// Tailwind utility class for buttons
+const btn =
+  "px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg shadow-md transition duration-200 ease-in-out transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed";
+
+const btnSkip =
+  "px-4 py-2 bg-pink-500 hover:bg-pink-700 text-white font-medium rounded-lg shadow-md transition duration-200 ease-in-out transform hover:scale-105";
