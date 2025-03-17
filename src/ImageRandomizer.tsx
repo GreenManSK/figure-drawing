@@ -36,7 +36,7 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
   const [history, setHistory] = useState<string[]>([]);
   const [completedCount, setCompletedCount] = useState(0);
   const [stopLimit, setStopLimit] = useState(false);
-  const [isPaused, setIsPaused] = useState(false);
+  const [isPaused, setIsPaused] = useState(true);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const [remainingTime, setRemainingTime] = useState(timerInSeconds * 1000);
   const lastTickRef = useRef<number | null>(null);
@@ -98,6 +98,7 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
 
         if (remainingTime <= 0) {
           chooseRandomImage(true);
+          setIsPaused(true);
           nextImageAudio.play();
           setRemainingTime(timerInSeconds * 1000);
         }
@@ -143,7 +144,10 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
   return (
     <div className="image-randomizer flex flex-col h-screen text-white w-full">
       <div className="flex-grow flex items-center justify-center max-h-[calc(100vh-3.5rem)] max-w-full bg-gray-950 w-full">
-        <ImageDisplay image={randomImage} />
+        <ImageDisplay
+          image={randomImage}
+          onImageLoad={() => setIsPaused(false)}
+        />
       </div>
       {remainingTime ? (
         <div className="absolute top-4 right-4 bg-black/60 text-white text-4xl font-bold px-4 py-2 rounded-lg shadow-lg">
@@ -172,7 +176,13 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
         <button onClick={() => chooseRandomImage(false)} className={btnSkip}>
           Skip
         </button>
-        <button onClick={() => chooseRandomImage(true)} className={btn}>
+        <button
+          onClick={() => {
+            chooseRandomImage(true);
+            setRemainingTime(timerInSeconds * 1000);
+          }}
+          className={btn}
+        >
           Next
         </button>
       </div>
