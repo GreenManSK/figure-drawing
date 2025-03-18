@@ -5,10 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "node scripts/build-image-list.cjs && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "build-image-list": "node scripts/build-image-list.js"
+    "build-image-list": "node scripts/build-image-list.cjs"
   },
   "dependencies": {
     "@tailwindcss/vite": "^4.0.14",

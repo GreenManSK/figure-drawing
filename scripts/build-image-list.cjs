@@ -2,7 +2,7 @@ const fs = require("fs");
 const path = require("path");
 
 const imgDir = path.join(__dirname, "../public/img");
-const outputFile = path.join(__dirname, "../src/image-list.json");
+const outputFile = path.join(__dirname, "../public/image-list.json");
 
 // Function to recursively get all file paths
 function getAllFiles(dir, baseDir = "") {

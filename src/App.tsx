@@ -1,17 +1,16 @@
 import React from "react";
 import "./App.css";
-import { buildImageDatabase } from "./helpers/buildImageDatabase";
+import {
+  buildImageDatabase,
+  ImageDatabase,
+} from "./helpers/buildImageDatabase";
 import { ImageRandomizer } from "./ImageRandomizer";
 import { CategoryPicker } from "./CategoryPicker";
-import data from "./image-list.json";
 
 function App() {
-  const imageDatabase = React.useMemo(() => {
-    return buildImageDatabase(data);
-  }, []);
-
+  const [imageDatabase, setImageDatabase] = React.useState<ImageDatabase>({});
   const [showImages, setShowImages] = React.useState(false);
-  const [filteredImages, setFilteredImages] = React.useState(imageDatabase);
+  const [filteredImages, setFilteredImages] = React.useState<ImageDatabase>({});
   const [limit, setLimit] = React.useState(() => {
     const storedLimit = localStorage.getItem("limit");
     return storedLimit ? parseInt(storedLimit, 10) : 0;
@@ -22,8 +21,21 @@ function App() {
   });
 
   React.useEffect(() => {
+    fetch(`${import.meta.env.BASE_URL}image-list.json`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Fetched image list:", data);
+        const database = buildImageDatabase(data);
+        setImageDatabase(database);
+        setFilteredImages(database);
+      })
+      .catch((error) => console.error("Error fetching image list:", error));
+  }, []);
+
+  React.useEffect(() => {
     localStorage.setItem("limit", limit.toString());
   }, [limit]);
+
   React.useEffect(() => {
     localStorage.setItem("timerInSeconds", timerInSeconds.toString());
   }, [timerInSeconds]);
