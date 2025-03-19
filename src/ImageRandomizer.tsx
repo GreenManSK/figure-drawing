@@ -171,7 +171,7 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
           </button>
         ) : null}
         <span className="counter text-lg font-semibold">
-          {limit ? `${completedCount} / ${limit}` : completedCount}
+          {limit ? `${completedCount + 1} / ${limit}` : completedCount + 1}
         </span>
         <button onClick={() => chooseRandomImage(false)} className={btnSkip}>
           Skip
