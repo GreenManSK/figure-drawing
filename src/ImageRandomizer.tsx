@@ -143,7 +143,7 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
 
   return (
     <div className="image-randomizer flex flex-col h-screen text-white w-full">
-      <div className="flex-grow flex items-center justify-center sm:max-h-[calc(100vh-3.5rem)] max-h-[calc(100vh-2.7rem)] max-w-full bg-gray-950 w-full">
+      <div className="flex-grow flex items-center justify-center sm:max-h-[calc(100dvh-3.5rem)] max-h-[calc(100dvh-2.7rem)] max-w-full bg-gray-950 w-full">
         <ImageDisplay
           image={randomImage}
           onImageLoad={() => setIsPaused(false)}
