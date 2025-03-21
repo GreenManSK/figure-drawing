@@ -143,7 +143,7 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
 
   return (
     <div className="image-randomizer flex flex-col h-screen text-white w-full">
-      <div className="flex-grow flex items-center justify-center max-h-[calc(100vh-3.5rem)] max-w-full bg-gray-950 w-full">
+      <div className="flex-grow flex items-center justify-center sm:max-h-[calc(100vh-3.5rem)] max-h-[calc(100vh-2.7rem)] max-w-full bg-gray-950 w-full">
         <ImageDisplay
           image={randomImage}
           onImageLoad={() => setIsPaused(false)}
@@ -154,7 +154,10 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
           {Math.ceil(remainingTime / 1000)}s
         </div>
       ) : null}
-      <div id="controls" className="flex justify-center items-center gap-4 p-2">
+      <div
+        id="controls"
+        className="flex justify-center items-center gap-4 p-2 flex-wrap sm:flex-nowrap text-base sm:text-lg"
+      >
         <button
           onClick={goToPreviousImage}
           disabled={history.length <= 1}
@@ -192,7 +195,7 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
 
 // Tailwind utility class for buttons
 const btn =
-  "px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg shadow-md transition duration-200 ease-in-out transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed";
+  "px-3 py-1 sm:px-4 sm:py-2 bg-indigo-600 hover:bg-indigo-700 text-white font-medium rounded-lg shadow-md transition duration-200 ease-in-out transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed";
 
 const btnSkip =
-  "px-4 py-2 bg-pink-500 hover:bg-pink-700 text-white font-medium rounded-lg shadow-md transition duration-200 ease-in-out transform hover:scale-105";
+  "px-3 py-1 sm:px-4 sm:py-2 bg-pink-500 hover:bg-pink-700 text-white font-medium rounded-lg shadow-md transition duration-200 ease-in-out transform hover:scale-105";
