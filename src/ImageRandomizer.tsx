@@ -31,7 +31,7 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
     [imageCategories]
   );
 
-  const [randomImage, setRandomImage] = useState<string>(images[0]);
+  const [randomImage, setRandomImage] = useState<string>("");
   const usedImagesRef = useRef<string[]>([]);
   const [history, setHistory] = useState<string[]>([]);
   const [completedCount, setCompletedCount] = useState(0);
@@ -144,10 +144,12 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
   return (
     <div className="image-randomizer flex flex-col h-screen text-white w-full">
       <div className="flex-grow flex items-center justify-center sm:max-h-[calc(100dvh-3.5rem)] max-h-[calc(100dvh-2.7rem)] max-w-full bg-gray-950 w-full">
-        <ImageDisplay
-          image={randomImage}
-          onImageLoad={() => setIsPaused(false)}
-        />
+        {randomImage && (
+          <ImageDisplay
+            image={randomImage}
+            onImageLoad={() => setIsPaused(false)}
+          />
+        )}
       </div>
       {remainingTime ? (
         <div className="absolute top-4 right-4 bg-black/60 text-white text-4xl font-bold px-4 py-2 rounded-lg shadow-lg">
