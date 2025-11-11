@@ -78,6 +78,37 @@ export const CategoryPicker: React.FC<ICategoryPickerProps> = ({
                 Figure Drawing
             </header>
             <form className="space-y-4">
+                <label className="block text-gray-700">
+                    Limit:
+                    <input
+                        type="number"
+                        min="0"
+                        className="ml-2 p-1 border rounded"
+                        onChange={(e) => setLimit(Number(e.target.value))}
+                        value={limit}
+                    />
+                </label>
+
+                <label className="block text-gray-700">
+                    Timer (seconds):
+                    <input
+                        type="number"
+                        min="0"
+                        className="ml-2 p-1 border rounded"
+                        onChange={(e) =>
+                            setTimerInSeconds(Number(e.target.value))
+                        }
+                        value={timerInSeconds}
+                    />
+                </label>
+
+                <button
+                    onClick={handleShowImages}
+                    className="mt-4 px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600"
+                >
+                    Show
+                </button>
+
                 {Object.entries(groupedCategories).map(
                     ([group, groupCategories]) => (
                         <div key={group} className="mb-4">
@@ -106,37 +137,7 @@ export const CategoryPicker: React.FC<ICategoryPickerProps> = ({
                         </div>
                     )
                 )}
-
-                <label className="block text-gray-700">
-                    Limit:
-                    <input
-                        type="number"
-                        min="0"
-                        className="ml-2 p-1 border rounded"
-                        onChange={(e) => setLimit(Number(e.target.value))}
-                        value={limit}
-                    />
-                </label>
-
-                <label className="block text-gray-700">
-                    Timer (seconds):
-                    <input
-                        type="number"
-                        min="0"
-                        className="ml-2 p-1 border rounded"
-                        onChange={(e) =>
-                            setTimerInSeconds(Number(e.target.value))
-                        }
-                        value={timerInSeconds}
-                    />
-                </label>
             </form>
-            <button
-                onClick={handleShowImages}
-                className="mt-4 px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600"
-            >
-                Show
-            </button>
         </div>
     );
 };

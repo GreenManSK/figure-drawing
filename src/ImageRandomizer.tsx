@@ -150,19 +150,6 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
 
     return (
         <div className="image-randomizer flex flex-col h-screen text-white w-full">
-            <div className="flex-grow flex items-center justify-center sm:max-h-[calc(100dvh-3.5rem)] max-h-[calc(100dvh-2.7rem)] max-w-full bg-gray-950 w-full">
-                {randomImage && (
-                    <ImageDisplay
-                        image={randomImage}
-                        onImageLoad={() => setIsPaused(false)}
-                    />
-                )}
-            </div>
-            {remainingTime ? (
-                <div className="absolute top-4 right-4 bg-black/60 text-white text-4xl font-bold px-4 py-2 rounded-lg shadow-lg">
-                    {Math.ceil(remainingTime / 1000)}s
-                </div>
-            ) : null}
             <div
                 id="controls"
                 className="flex justify-center items-center gap-4 p-2 flex-wrap sm:flex-nowrap text-base sm:text-lg"
@@ -205,6 +192,19 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
                 >
                     Next
                 </button>
+            </div>
+            <div className="flex-grow flex items-center justify-center sm:max-h-[calc(100dvh-60px)] max-h-[calc(100dvh-48px)] max-w-full bg-gray-950 w-full relative">
+                {randomImage && (
+                    <ImageDisplay
+                        image={randomImage}
+                        onImageLoad={() => setIsPaused(false)}
+                    />
+                )}
+                {remainingTime ? (
+                    <div className="absolute top-4 right-4 bg-black/60 text-white text-4xl font-bold px-4 py-2 rounded-lg shadow-lg">
+                        {Math.ceil(remainingTime / 1000)}s
+                    </div>
+                ) : null}
             </div>
         </div>
     );
