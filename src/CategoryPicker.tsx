@@ -108,8 +108,7 @@ export const CategoryPicker: React.FC<ICategoryPickerProps> = ({
                 <label className="block text-gray-700">
                     Toggl API:
                     <input
-                        type="password"
-                        min="0"
+                        type="text"
                         className="ml-2 p-1 border rounded"
                         onChange={(e) => setApiKey(e.target.value)}
                         value={apiKey}
@@ -118,6 +117,7 @@ export const CategoryPicker: React.FC<ICategoryPickerProps> = ({
                         data-lpignore="true"
                         data-protonpass-ignore="true"
                         placeholder="API key for time tracking"
+                        style={{WebkitTextSecurity: 'disc'}}
                     />
                 </label>
 
