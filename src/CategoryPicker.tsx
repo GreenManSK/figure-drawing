@@ -44,6 +44,9 @@ export const CategoryPicker: React.FC<ICategoryPickerProps> = ({
   };
 
   const handleShowImages = () => {
+    if (document.documentElement.requestFullscreen) {
+      document.documentElement.requestFullscreen();
+    }
     const filteredImages: { [key: string]: string[] } = {};
     selectedCategories.forEach((category) => {
       filteredImages[category] = imageDatabase[category];
