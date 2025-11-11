@@ -2,7 +2,7 @@
   "name": "Figure Drawing",
   "short_name": "FigureDrawing",
   "display": "standalone",
-  "start_url": "/",
+  "start_url": "/figure-drawing/",
   "background_color": "#101828",
   "theme_color": "#101828",
   "icons": [
