@@ -117,7 +117,7 @@ export const CategoryPicker: React.FC<ICategoryPickerProps> = ({
                         data-lpignore="true"
                         data-protonpass-ignore="true"
                         placeholder="API key for time tracking"
-                        style={{WebkitTextSecurity: 'disc'}}
+                        style={{WebkitTextSecurity: 'disc'} as any}
                     />
                 </label>
 
