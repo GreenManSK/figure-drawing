@@ -140,6 +140,13 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
     }
     setIsPaused((prev) => !prev);
   };
+  
+  const close = () => {
+    setShowImages(false);
+      if (document.fullscreenElement) {
+        document.exitFullscreen();
+      }
+  };
 
   return (
     <div className="image-randomizer flex flex-col h-screen text-white w-full">
@@ -167,7 +174,7 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
         >
           Prev
         </button>
-        <button onClick={() => setShowImages(false)} className={btn}>
+        <button onClick={close} className={btn}>
           Close
         </button>
         {timerInSeconds ? (

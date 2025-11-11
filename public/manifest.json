@@ -1,0 +1,15 @@
+{
+  "name": "Figure Drawing",
+  "short_name": "FigureDrawing",
+  "display": "standalone",
+  "start_url": "/",
+  "background_color": "#101828",
+  "theme_color": "#101828",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
