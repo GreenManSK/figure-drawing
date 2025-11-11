@@ -27,4 +27,5 @@ src/img/*
 public/img/*
 src/image-list.json
 public/image-list.json
+src/config.tsx
 

@@ -1,0 +1,1 @@
+export const togglUrl = "https://api.track.toggl.com/api/v9/";

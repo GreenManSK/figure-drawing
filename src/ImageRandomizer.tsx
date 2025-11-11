@@ -2,6 +2,7 @@
 import {FC, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {ImageDisplay} from './ImageDisplay';
 import './ImageRandomizer.css';
+import {useTogglContext, useTogglRequest} from './TogglContext';
 
 interface IImageDisplayProps {
     imageCategories: {[key: string]: string[]};
@@ -40,6 +41,37 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
     const timerRef = useRef<number | null>(null);
     const [remainingTime, setRemainingTime] = useState(timerInSeconds * 1000);
     const lastTickRef = useRef<number | null>(null);
+
+    const {workspaceId} = useTogglContext();
+    const togglRequest = useTogglRequest();
+    const toggleTimerIdRef = useRef<string | undefined>(undefined);
+    const togglApiRunningRef = useRef<boolean>(false);
+    const startTogglTimer = () => {
+        if (!workspaceId || togglApiRunningRef.current) {
+            return;
+        }
+        togglApiRunningRef.current = true;
+        togglRequest('time_entries', 'POST', {
+            created_with: 'Figure Drawing API',
+            description: 'Figure Drawing',
+            tags: [],
+            billable: false,
+            workspace_id: +workspaceId, // replace with your actual workspace_id
+            duration: -1,
+            start: new Date().toISOString(),
+            stop: null,
+        }).then((data: any) => {
+            togglApiRunningRef.current = false;
+            toggleTimerIdRef.current = data.id;
+        });
+    };
+    const stopTogglTimer = () => {
+        if (!toggleTimerIdRef.current) {
+            return;
+        }
+        togglRequest(`time_entries/${toggleTimerIdRef.current}/stop`, 'PATCH');
+        toggleTimerIdRef.current = undefined;
+    };
 
     const chooseRandomImage = useCallback(
         (increaseCount: boolean) => {
@@ -84,6 +116,7 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
         usedImagesRef.current = [];
         setHistory([]);
         chooseRandomImage(false);
+        startTogglTimer();
     }, [images]);
 
     useEffect(() => {
@@ -130,19 +163,33 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
         }
     }, [completedCount, limit, setShowImages, stopLimit]);
 
+    useEffect(() => {
+        const handleBeforeUnload = () => {
+            stopTogglTimer();
+        };
+        window.addEventListener('beforeunload', handleBeforeUnload);
+        return () => {
+            window.removeEventListener('beforeunload', handleBeforeUnload);
+        };
+    }, []);
+
     const togglePause = () => {
         if (!isPaused) {
             if (timerRef.current) {
                 clearInterval(timerRef.current);
             }
+            stopTogglTimer();
             const elapsed = Date.now() - (lastTickRef.current || Date.now());
             setRemainingTime((prev) => Math.max(prev - elapsed, 0));
+        } else {
+            startTogglTimer();
         }
         setIsPaused((prev) => !prev);
     };
 
     const close = () => {
         setShowImages(false);
+        stopTogglTimer();
         if (document.fullscreenElement) {
             document.exitFullscreen();
         }

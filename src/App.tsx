@@ -3,6 +3,7 @@ import './App.css';
 import {buildImageDatabase, ImageDatabase} from './helpers/buildImageDatabase';
 import {ImageRandomizer} from './ImageRandomizer';
 import {CategoryPicker} from './CategoryPicker';
+import {TogglProvider} from './TogglContext';
 
 function App() {
     const [imageDatabase, setImageDatabase] = React.useState<ImageDatabase>({});
@@ -42,26 +43,28 @@ function App() {
     }, [timerInSeconds]);
 
     return (
-        <div className="flex justify-center items-center bg-gray-900 text-white min-h-screen">
-            {showImages ? (
-                <ImageRandomizer
-                    imageCategories={filteredImages}
-                    setShowImages={setShowImages}
-                    limit={limit}
-                    timerInSeconds={timerInSeconds}
-                />
-            ) : (
-                <CategoryPicker
-                    imageDatabase={imageDatabase}
-                    setFilteredImages={setFilteredImages}
-                    setShowImages={setShowImages}
-                    setLimit={setLimit}
-                    limit={limit}
-                    timerInSeconds={timerInSeconds}
-                    setTimerInSeconds={setTimerInSeconds}
-                />
-            )}
-        </div>
+        <TogglProvider>
+            <div className="flex justify-center items-center bg-gray-900 text-white min-h-screen">
+                {showImages ? (
+                    <ImageRandomizer
+                        imageCategories={filteredImages}
+                        setShowImages={setShowImages}
+                        limit={limit}
+                        timerInSeconds={timerInSeconds}
+                    />
+                ) : (
+                    <CategoryPicker
+                        imageDatabase={imageDatabase}
+                        setFilteredImages={setFilteredImages}
+                        setShowImages={setShowImages}
+                        setLimit={setLimit}
+                        limit={limit}
+                        timerInSeconds={timerInSeconds}
+                        setTimerInSeconds={setTimerInSeconds}
+                    />
+                )}
+            </div>
+        </TogglProvider>
     );
 }
 

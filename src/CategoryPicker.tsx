@@ -1,4 +1,5 @@
 import React from 'react';
+import {useTogglContext} from './TogglContext';
 
 interface ICategoryPickerProps {
     imageDatabase: {[key: string]: string[]};
@@ -19,6 +20,8 @@ export const CategoryPicker: React.FC<ICategoryPickerProps> = ({
     timerInSeconds,
     setTimerInSeconds,
 }) => {
+    const {apiKey, setApiKey} = useTogglContext();
+
     // Create form that is list of checkboxes to filter images
     // Store selected categories in localStorage to restore them when user gets back to the page
     const [selectedCategories, setSelectedCategories] = React.useState<
@@ -99,6 +102,22 @@ export const CategoryPicker: React.FC<ICategoryPickerProps> = ({
                             setTimerInSeconds(Number(e.target.value))
                         }
                         value={timerInSeconds}
+                    />
+                </label>
+
+                <label className="block text-gray-700">
+                    Toggl API:
+                    <input
+                        type="password"
+                        min="0"
+                        className="ml-2 p-1 border rounded"
+                        onChange={(e) => setApiKey(e.target.value)}
+                        value={apiKey}
+                        autoComplete="off"
+                        data-1p-ignore
+                        data-lpignore="true"
+                        data-protonpass-ignore="true"
+                        placeholder="API key for time tracking"
                     />
                 </label>
 
