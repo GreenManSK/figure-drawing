@@ -3,7 +3,7 @@ import {FC, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {ImageDisplay} from './ImageDisplay';
 import './ImageRandomizer.css';
 import {useTogglContext, useTogglRequest} from './TogglContext';
-import {limitReachedAudio, nextImageAudio} from './audio';
+import {playSound} from './audio';
 
 interface IImageDisplayProps {
     imageCategories: {[key: string]: string[]};
@@ -128,7 +128,7 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
                 if (remainingTime <= 0) {
                     chooseRandomImage(true);
                     setIsPaused(true);
-                    nextImageAudio.play();
+                    playSound('nextImage');
                     setRemainingTime(timerInSeconds * 1000);
                 }
             }, 100);
@@ -146,7 +146,7 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
             return;
         }
         if (limit && completedCount >= limit) {
-            limitReachedAudio.play();
+            playSound('limitReached');
 
             const shouldStop = confirm(
                 'You have completed the limit. Do you want to stop?'
