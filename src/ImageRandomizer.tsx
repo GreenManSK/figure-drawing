@@ -3,6 +3,7 @@ import {FC, useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import {ImageDisplay} from './ImageDisplay';
 import './ImageRandomizer.css';
 import {useTogglContext, useTogglRequest} from './TogglContext';
+import {limitReachedAudio, nextImageAudio} from './audio';
 
 interface IImageDisplayProps {
     imageCategories: {[key: string]: string[]};
@@ -12,11 +13,6 @@ interface IImageDisplayProps {
 }
 
 const MEMORY_SIZE = 50;
-
-const limitReachedAudio = new Audio(
-    import.meta.env.BASE_URL + 'limit-reached.mp3'
-);
-const nextImageAudio = new Audio(import.meta.env.BASE_URL + 'next.mp3');
 
 export const ImageRandomizer: FC<IImageDisplayProps> = ({
     imageCategories,

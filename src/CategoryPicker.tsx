@@ -1,5 +1,6 @@
 import React from 'react';
 import {useTogglContext} from './TogglContext';
+import { unlockAudio } from './audio';
 
 interface ICategoryPickerProps {
     imageDatabase: {[key: string]: string[]};
@@ -52,6 +53,7 @@ export const CategoryPicker: React.FC<ICategoryPickerProps> = ({
         if (document.documentElement.requestFullscreen) {
             document.documentElement.requestFullscreen();
         }
+        unlockAudio();
         const filteredImages: {[key: string]: string[]} = {};
         selectedCategories.forEach((category) => {
             filteredImages[category] = imageDatabase[category];
