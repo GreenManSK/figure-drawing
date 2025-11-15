@@ -42,7 +42,7 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
     const togglRequest = useTogglRequest();
     const toggleTimerIdRef = useRef<string | undefined>(undefined);
     const togglApiRunningRef = useRef<boolean>(false);
-    const startTogglTimer = () => {
+    const startTogglTimer = useCallback(() => {
         if (!workspaceId || togglApiRunningRef.current) {
             return;
         }
@@ -60,14 +60,20 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
             togglApiRunningRef.current = false;
             toggleTimerIdRef.current = data.id;
         });
-    };
-    const stopTogglTimer = () => {
+    }, [togglRequest, workspaceId]);
+    const stopTogglTimer = useCallback(() => {
         if (!toggleTimerIdRef.current) {
             return;
         }
         togglRequest(`time_entries/${toggleTimerIdRef.current}/stop`, 'PATCH');
         toggleTimerIdRef.current = undefined;
-    };
+    }, [togglRequest]);
+
+    useEffect(() => {
+        if (!isPaused && togglApiRunningRef.current === false) {
+            startTogglTimer();
+        }
+    }, [isPaused, startTogglTimer]);
 
     const chooseRandomImage = useCallback(
         (increaseCount: boolean) => {
@@ -113,7 +119,7 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
         setHistory([]);
         chooseRandomImage(false);
         startTogglTimer();
-    }, [images]);
+    }, [chooseRandomImage, images, startTogglTimer]);
 
     useEffect(() => {
         if (timerInSeconds > 0 && !isPaused) {
@@ -167,7 +173,7 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
         return () => {
             window.removeEventListener('beforeunload', handleBeforeUnload);
         };
-    }, []);
+    }, [stopTogglTimer]);
 
     const togglePause = () => {
         if (!isPaused) {
