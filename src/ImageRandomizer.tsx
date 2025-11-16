@@ -228,6 +228,7 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
                 </button>
                 <button
                     onClick={() => {
+                        startTogglTimer();
                         chooseRandomImage(true);
                         setRemainingTime(timerInSeconds * 1000);
                     }}
