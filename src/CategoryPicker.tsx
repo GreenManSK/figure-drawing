@@ -32,12 +32,26 @@ export const CategoryPicker: React.FC<ICategoryPickerProps> = ({
         return storedCategories ? JSON.parse(storedCategories) : [];
     });
 
+    const [enableFullscreen, setEnableFullscreen] = React.useState<boolean>(
+        () => {
+            const storedFullscreen = localStorage.getItem('enableFullscreen');
+            return storedFullscreen ? JSON.parse(storedFullscreen) : true;
+        }
+    );
+
     React.useEffect(() => {
         localStorage.setItem(
             'selectedCategories',
             JSON.stringify(selectedCategories)
         );
     }, [selectedCategories]);
+
+    React.useEffect(() => {
+        localStorage.setItem(
+            'enableFullscreen',
+            JSON.stringify(enableFullscreen)
+        );
+    }, [enableFullscreen]);
 
     const handleCategoryChange = (category: string) => {
         if (selectedCategories.includes(category)) {
@@ -50,7 +64,7 @@ export const CategoryPicker: React.FC<ICategoryPickerProps> = ({
     };
 
     const handleShowImages = () => {
-        if (document.documentElement.requestFullscreen) {
+        if (enableFullscreen && document.documentElement.requestFullscreen) {
             document.documentElement.requestFullscreen();
         }
         unlockAudio();
@@ -121,6 +135,16 @@ export const CategoryPicker: React.FC<ICategoryPickerProps> = ({
                         placeholder="API key for time tracking"
                         style={{WebkitTextSecurity: 'disc'} as any}
                     />
+                </label>
+
+                <label className="flex items-center text-gray-700 cursor-pointer">
+                    <input
+                        type="checkbox"
+                        className="mr-2"
+                        checked={enableFullscreen}
+                        onChange={(e) => setEnableFullscreen(e.target.checked)}
+                    />
+                    Enable fullscreen when showing images
                 </label>
 
                 <button
