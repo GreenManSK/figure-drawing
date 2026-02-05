@@ -12,8 +12,6 @@ interface ICategoryPickerProps {
     setTimerInSeconds: (timer: number) => void;
     recentTimers: number[];
     addToRecentTimers: (timer: number) => void;
-    maxRecentTimers: number;
-    setMaxRecentTimers: (max: number) => void;
 }
 
 export const CategoryPicker: React.FC<ICategoryPickerProps> = ({
@@ -26,8 +24,6 @@ export const CategoryPicker: React.FC<ICategoryPickerProps> = ({
     setTimerInSeconds,
     recentTimers,
     addToRecentTimers,
-    maxRecentTimers,
-    setMaxRecentTimers,
 }) => {
     const {apiKey, setApiKey, isTogglApiEnabled, setIsTogglApiEnabled} = useTogglContext();
 
@@ -146,21 +142,6 @@ export const CategoryPicker: React.FC<ICategoryPickerProps> = ({
                         </div>
                     )}
                 </div>
-
-                <label className="block text-gray-700">
-                    Remember last:
-                    <input
-                        type="number"
-                        min="1"
-                        max="20"
-                        className="ml-2 p-1 border rounded w-16"
-                        onChange={(e) =>
-                            setMaxRecentTimers(Number(e.target.value))
-                        }
-                        value={maxRecentTimers}
-                    />
-                    <span className="ml-1 text-gray-600 text-sm">timer values</span>
-                </label>
 
                 <div className="block">
                     <label className="text-gray-700">

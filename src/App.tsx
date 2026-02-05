@@ -4,7 +4,7 @@ import {buildImageDatabase, ImageDatabase} from './helpers/buildImageDatabase';
 import {ImageRandomizer} from './ImageRandomizer';
 import {CategoryPicker} from './CategoryPicker';
 import {TogglProvider} from './TogglContext';
-import {maxRecentTimers as defaultMaxRecentTimers} from './config';
+import {maxRecentTimers} from './config';
 
 function App() {
     const [imageDatabase, setImageDatabase] = React.useState<ImageDatabase>({});
@@ -23,10 +23,6 @@ function App() {
     const [recentTimers, setRecentTimers] = React.useState<number[]>(() => {
         const storedRecentTimers = localStorage.getItem('recentTimers');
         return storedRecentTimers ? JSON.parse(storedRecentTimers) : [];
-    });
-    const [maxRecentTimers, setMaxRecentTimers] = React.useState(() => {
-        const storedMaxRecentTimers = localStorage.getItem('maxRecentTimers');
-        return storedMaxRecentTimers ? parseInt(storedMaxRecentTimers, 10) : defaultMaxRecentTimers;
     });
 
     React.useEffect(() => {
@@ -55,16 +51,12 @@ function App() {
         localStorage.setItem('recentTimers', JSON.stringify(recentTimers));
     }, [recentTimers]);
 
-    React.useEffect(() => {
-        localStorage.setItem('maxRecentTimers', maxRecentTimers.toString());
-    }, [maxRecentTimers]);
-
-    // Truncate recentTimers when maxRecentTimers is reduced
+    // Truncate recentTimers if it exceeds maxRecentTimers
     React.useEffect(() => {
         if (recentTimers.length > maxRecentTimers) {
             setRecentTimers((prev) => prev.slice(0, maxRecentTimers));
         }
-    }, [maxRecentTimers]);
+    }, [recentTimers]);
 
     const addToRecentTimers = (timer: number) => {
         if (timer <= 0) return; // Don't add 0 or negative values
@@ -100,8 +92,6 @@ function App() {
                         setTimerInSeconds={setTimerInSeconds}
                         recentTimers={recentTimers}
                         addToRecentTimers={addToRecentTimers}
-                        maxRecentTimers={maxRecentTimers}
-                        setMaxRecentTimers={setMaxRecentTimers}
                     />
                 )}
             </div>
