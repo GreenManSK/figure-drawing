@@ -10,6 +10,10 @@ interface ICategoryPickerProps {
     limit: number;
     timerInSeconds: number;
     setTimerInSeconds: (timer: number) => void;
+    recentTimers: number[];
+    addToRecentTimers: (timer: number) => void;
+    maxRecentTimers: number;
+    setMaxRecentTimers: (max: number) => void;
 }
 
 export const CategoryPicker: React.FC<ICategoryPickerProps> = ({
@@ -20,6 +24,10 @@ export const CategoryPicker: React.FC<ICategoryPickerProps> = ({
     limit,
     timerInSeconds,
     setTimerInSeconds,
+    recentTimers,
+    addToRecentTimers,
+    maxRecentTimers,
+    setMaxRecentTimers,
 }) => {
     const {apiKey, setApiKey, isTogglApiEnabled, setIsTogglApiEnabled} = useTogglContext();
 
@@ -73,6 +81,7 @@ export const CategoryPicker: React.FC<ICategoryPickerProps> = ({
             filteredImages[category] = imageDatabase[category];
         });
         setFilteredImages(filteredImages);
+        addToRecentTimers(timerInSeconds);
         setShowImages(true);
     };
 
@@ -108,17 +117,49 @@ export const CategoryPicker: React.FC<ICategoryPickerProps> = ({
                     />
                 </label>
 
+                <div className="block">
+                    <label className="text-gray-700">
+                        Timer (seconds):
+                        <input
+                            type="number"
+                            min="0"
+                            className="ml-2 p-1 border rounded"
+                            onChange={(e) =>
+                                setTimerInSeconds(Number(e.target.value))
+                            }
+                            value={timerInSeconds}
+                        />
+                    </label>
+                    {recentTimers.length > 0 && (
+                        <div className="mt-2 flex flex-wrap gap-2">
+                            <span className="text-gray-600 text-sm">Recent:</span>
+                            {recentTimers.map((timer) => (
+                                <button
+                                    key={timer}
+                                    type="button"
+                                    className="px-2 py-1 bg-gray-200 text-gray-700 rounded text-sm hover:bg-gray-300"
+                                    onClick={() => setTimerInSeconds(timer)}
+                                >
+                                    {timer}s
+                                </button>
+                            ))}
+                        </div>
+                    )}
+                </div>
+
                 <label className="block text-gray-700">
-                    Timer (seconds):
+                    Remember last:
                     <input
                         type="number"
-                        min="0"
-                        className="ml-2 p-1 border rounded"
+                        min="1"
+                        max="20"
+                        className="ml-2 p-1 border rounded w-16"
                         onChange={(e) =>
-                            setTimerInSeconds(Number(e.target.value))
+                            setMaxRecentTimers(Number(e.target.value))
                         }
-                        value={timerInSeconds}
+                        value={maxRecentTimers}
                     />
+                    <span className="ml-1 text-gray-600 text-sm">timer values</span>
                 </label>
 
                 <div className="block">
