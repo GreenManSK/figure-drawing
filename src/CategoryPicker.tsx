@@ -21,7 +21,7 @@ export const CategoryPicker: React.FC<ICategoryPickerProps> = ({
     timerInSeconds,
     setTimerInSeconds,
 }) => {
-    const {apiKey, setApiKey} = useTogglContext();
+    const {apiKey, setApiKey, isTogglApiEnabled, setIsTogglApiEnabled} = useTogglContext();
 
     // Create form that is list of checkboxes to filter images
     // Store selected categories in localStorage to restore them when user gets back to the page
@@ -107,21 +107,32 @@ export const CategoryPicker: React.FC<ICategoryPickerProps> = ({
                     />
                 </label>
 
-                <label className="block text-gray-700">
-                    Toggl API:
-                    <input
-                        type="text"
-                        className="ml-2 p-1 border rounded"
-                        onChange={(e) => setApiKey(e.target.value)}
-                        value={apiKey}
-                        autoComplete="off"
-                        data-1p-ignore
-                        data-lpignore="true"
-                        data-protonpass-ignore="true"
-                        placeholder="API key for time tracking"
-                        style={{WebkitTextSecurity: 'disc'} as any}
-                    />
-                </label>
+                <div className="block">
+                    <label className="text-gray-700">
+                        Toggl API:
+                        <input
+                            type="text"
+                            className="ml-2 p-1 border rounded"
+                            onChange={(e) => setApiKey(e.target.value)}
+                            value={apiKey}
+                            autoComplete="off"
+                            data-1p-ignore
+                            data-lpignore="true"
+                            data-protonpass-ignore="true"
+                            placeholder="API key for time tracking"
+                            style={{WebkitTextSecurity: 'disc'} as any}
+                        />
+                    </label>
+                    <label className="ml-4 text-gray-700">
+                        <input
+                            type="checkbox"
+                            className="mr-1"
+                            checked={isTogglApiEnabled}
+                            onChange={(e) => setIsTogglApiEnabled(e.target.checked)}
+                        />
+                        Enable for session
+                    </label>
+                </div>
 
                 <button
                     onClick={handleShowImages}

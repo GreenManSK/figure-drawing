@@ -51,12 +51,16 @@ type TogglContextType = {
     apiKey: string | undefined;
     workspaceId: string | undefined;
     setApiKey: (key: string | undefined) => void;
+    isTogglApiEnabled: boolean;
+    setIsTogglApiEnabled: (enabled: boolean) => void;
 };
 
 const TogglContext = createContext<TogglContextType>({
     apiKey: undefined,
     workspaceId: undefined,
     setApiKey: () => {},
+    isTogglApiEnabled: false,
+    setIsTogglApiEnabled: () => {},
 });
 
 export const useTogglContext = () => useContext(TogglContext);
@@ -66,6 +70,7 @@ export const TogglProvider = ({children}: {children: ReactNode}) => {
     const [workspaceId, setWorkspaceId] = useState<string | undefined>(
         undefined
     );
+    const [isTogglApiEnabled, setIsTogglApiEnabledState] = useState<boolean>(false);
 
     useEffect(() => {
         const storedKey = localStorage.getItem('togglApiKey');
@@ -75,6 +80,10 @@ export const TogglProvider = ({children}: {children: ReactNode}) => {
         const storedWorkspace = localStorage.getItem('togglWorkspaceId');
         if (storedWorkspace) {
             setWorkspaceId(storedWorkspace);
+        }
+        const storedEnabled = localStorage.getItem('togglApiEnabled');
+        if (storedEnabled !== null) {
+            setIsTogglApiEnabledState(storedEnabled === 'true');
         }
     }, []);
 
@@ -98,8 +107,13 @@ export const TogglProvider = ({children}: {children: ReactNode}) => {
         }
     };
 
+    const setIsTogglApiEnabled = (enabled: boolean) => {
+        setIsTogglApiEnabledState(enabled);
+        localStorage.setItem('togglApiEnabled', enabled.toString());
+    };
+
     return (
-        <TogglContext.Provider value={{apiKey, setApiKey, workspaceId}}>
+        <TogglContext.Provider value={{apiKey, setApiKey, workspaceId, isTogglApiEnabled, setIsTogglApiEnabled}}>
             {children}
         </TogglContext.Provider>
     );

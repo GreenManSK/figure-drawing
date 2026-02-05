@@ -38,12 +38,12 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
     const [remainingTime, setRemainingTime] = useState(timerInSeconds * 1000);
     const lastTickRef = useRef<number | null>(null);
 
-    const {workspaceId} = useTogglContext();
+    const {workspaceId, isTogglApiEnabled} = useTogglContext();
     const togglRequest = useTogglRequest();
     const toggleTimerIdRef = useRef<string | undefined>(undefined);
     const togglApiRunningRef = useRef<boolean>(false);
     const startTogglTimer = () => {
-        if (!workspaceId || togglApiRunningRef.current) {
+        if (!isTogglApiEnabled || !workspaceId || togglApiRunningRef.current) {
             return;
         }
         togglApiRunningRef.current = true;
@@ -62,7 +62,7 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
         });
     };
     const stopTogglTimer = () => {
-        if (!toggleTimerIdRef.current) {
+        if (!isTogglApiEnabled || !toggleTimerIdRef.current) {
             return;
         }
         togglRequest(`time_entries/${toggleTimerIdRef.current}/stop`, 'PATCH');
