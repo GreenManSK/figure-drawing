@@ -59,7 +59,7 @@ function App() {
     }, [recentTimers]);
 
     const addToRecentTimers = (timer: number) => {
-        if (timer <= 0) return; // Don't add 0 or negative values
+        if (timer < 0) return; // Don't add 0 or negative values
 
         setRecentTimers((prev) => {
             // Remove the timer if it already exists
