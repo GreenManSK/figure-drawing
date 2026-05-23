@@ -152,6 +152,7 @@ export const ImageRandomizer: FC<IImageDisplayProps> = ({
                 'You have completed the limit. Do you want to stop?'
             );
             if (shouldStop) {
+                stopTogglTimer();
                 setShowImages(false);
             } else {
                 setStopLimit(true);
